@@ -71,6 +71,16 @@ def file_url
     Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true)
   ).to_s
 end
+# Força URL
+def forced_data_url
+  return '' unless file.attached?
+
+  URI.join(
+    "#{ENV.fetch('RAILS_PROTOCOL', 'https')}://#{ENV.fetch('RAILS_HOST', 'localhost')}",
+    Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true)
+  ).to_s
+end
+
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
   def download_url

@@ -101,6 +101,9 @@ Rails.application.configure do
   # :postmark for Postmark
   # :sendgrid for Sendgrid
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
-
-  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+  Rails.application.routes.default_url_options = {
+  host: ENV.fetch('RAILS_HOST', 'localhost'),
+  protocol: ENV.fetch('RAILS_PROTOCOL', 'https')
+}
+  #Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 end

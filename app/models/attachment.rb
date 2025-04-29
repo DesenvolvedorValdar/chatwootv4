@@ -55,12 +55,21 @@ class Attachment < ApplicationRecord
   #def file_url
   #  file.attached? ? url_for(file) : ''
   #end
-  def file_url
-  file.attached? ? Rails.application.routes.url_helpers.rails_blob_url(
-    file,
-    host: ENV['RAILS_HOST'],
-    protocol: ENV['RAILS_PROTOCOL'] || 'https'
-  ) : ''
+  #def file_url
+  #file.attached? ? Rails.application.routes.url_helpers.rails_blob_url(
+  #  file,
+  #  host: ENV['RAILS_HOST'],
+  #  protocol: ENV['RAILS_PROTOCOL'] || 'https'
+  #) : ''
+#end
+def file_url
+  return '' unless file.attached?
+
+  # Monta a URL com domínio fixo baseado nas variáveis de ambiente
+  URI.join(
+    "#{ENV.fetch('RAILS_PROTOCOL', 'https')}://#{ENV.fetch('RAILS_HOST', 'localhost')}",
+    Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true)
+  ).to_s
 end
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases

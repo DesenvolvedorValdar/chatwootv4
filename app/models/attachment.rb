@@ -105,7 +105,7 @@ end
   def file_metadata
     metadata = {
       extension: extension,
-      data_url: file_url,
+      data_url: forced_file_url,
       thumb_url: thumb_url,
       file_size: file.byte_size,
       width: file.metadata[:width],
